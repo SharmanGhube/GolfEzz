@@ -1,0 +1,38 @@
+{
+  "name": "golf-ezz",
+  "version": "1.0.0",
+  "description": "Professional Golf Course Management System",
+  "private": true,
+  "workspaces": [
+    "frontend"
+  ],
+  "scripts": {
+    "dev": "concurrently \"npm run frontend:dev\" \"npm run backend:dev\"",
+    "frontend:dev": "cd frontend && npm run dev",
+    "frontend:build": "cd frontend && npm run build",
+    "frontend:start": "cd frontend && npm run start",
+    "backend:dev": "cd backend && go run ./cmd/server/main.go",
+    "backend:build": "cd backend && go build -o bin/server ./cmd/server/main.go",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "docker:logs": "docker-compose logs -f",
+    "db:migrate": "cd backend && go run ./cmd/migrate/main.go",
+    "db:seed": "cd backend && go run ./cmd/seed/main.go",
+    "db:reset": "npm run docker:down && npm run docker:up && npm run db:migrate && npm run db:seed",
+    "setup": "powershell -ExecutionPolicy Bypass -File ./scripts/dev-setup.ps1",
+    "setup:unix": "bash ./scripts/dev-setup.sh",
+    "test": "npm run frontend:test && npm run backend:test",
+    "frontend:test": "cd frontend && npm run test",
+    "backend:test": "cd backend && go test ./...",
+    "lint": "npm run frontend:lint",
+    "frontend:lint": "cd frontend && npm run lint",
+    "clean": "npm run docker:down && cd frontend && rm -rf .next node_modules && cd ../backend && rm -rf bin"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  }
+}
